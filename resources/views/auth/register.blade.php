@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6f9;
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            width: 90%;
+            max-width: 400px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.1);
+            box-sizing: border-box;
+        }
+
+        h5 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .auth-card .mb-2,
+        .auth-card .mb-3 {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .auth-card i {
+            color: #0d6efd;
+            min-width: 20px;
+        }
+
+        .auth-card input.form-control {
+            flex: 1;
+        }
+
+        .error-message {
+            margin-left: 30px;
+            margin-top: -5px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <form action="{{ route('register.store') }}" method="POST" class="auth-card">
+            @csrf
+            <h5 class="text-center mb-3">Create Account</h5>
+            
+            <div class="mb-2">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user"></i><input type="text" name="name" class="form-control" placeholder="Full Name" value="{{ old('name') }}">
+                </div>
+                @error('name') <small class="text-danger error-message">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="mb-2">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-envelope"></i><input type="email" name="email" class="form-control" placeholder="Email Address" value="{{ old('email') }}">
+                </div>
+                @error('email') <small class="text-danger error-message">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i><input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+                @error('password') <small class="text-danger error-message">{{ $message }}</small>
+                @enderror
+            </div>
+            
+            <div class="mb-3">
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-key"></i><input type="text" name="admin_key" class="form-control" placeholder="Admin Key (optional)">
+                </div>
+                @error('admin_key') <small class="text-danger error-message">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Register
+            </button>
+
+            <div class="mt-4 text-center">
+             Already have an account? <a href="{{ route('login') }}" class="text-sm text-blue-600 hover:underline">Login</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
