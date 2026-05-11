@@ -6,6 +6,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
     <style>
         body {
             background: lightblue;
@@ -157,6 +158,11 @@
              Don't have account? <a href="{{ route('register') }}" class="text-sm text-blue-600 hover:underline">Register</a>
             </div>
         </form>
+        <button id="installBtn" class="btn btn-secondary w-90 mt-3 fw-semibold">
+            Install App
+        </button>
+
+        
     </div>
     <script>
         async function loadWeather() {
@@ -181,5 +187,35 @@
         loadWeather();
         setInterval(loadWeather, 60000);
     </script>
+
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the default mini-infobar from showing
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show your custom install button
+            const installBtn = document.getElementById('installBtn');
+            if (installBtn) {
+                installBtn.style.display = 'block';  // or whatever style you want
+            }
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+
+            // Show the install prompt
+            deferredPrompt.prompt();
+
+            // Wait for user response
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+
+            // Clear the saved prompt
+            deferredPrompt = null;
+        });
+    </script> 
 </body>
 </html>
